@@ -1,0 +1,355 @@
+// Prisma schema для базы данных
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Пользователи
+model User {
+  id                String    @id @default(uuid())
+  telegramId        BigInt    @unique
+  username          String?
+  firstName         String?
+  lastName          String?
+  phone             String?
+  email             String?
+  languageCode      String    @default("ru") // ru, he, en
+  isVerified        Boolean   @default(false)
+  role              UserRole  @default(USER)
+  rating            Float     @default(0)
+  reviewCount       Int       @default(0)
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  lastActive        DateTime  @default(now())
+
+  // Связи
+  properties        Property[]
+  bookings          Booking[]
+  favorites         Favorite[]
+  reviews           Review[]  @relation("ReviewAuthor")
+  receivedReviews   Review[]  @relation("ReviewTarget")
+  messages          Message[]
+  notifications     Notification[]
+  payments          Payment[]
+
+  @@index([telegramId])
+  @@index([phone])
+}
+
+enum UserRole {
+  USER
+  AGENT
+  ADMIN
+}
+
+// Объекты недвижимости
+model Property {
+  id                String          @id @default(uuid())
+  ownerId           String
+  owner             User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  // Основная информация
+  title             String
+  description       String          @db.Text
+  type              PropertyType
+  dealType          DealType        // SALE или RENT
+  status            PropertyStatus  @default(DRAFT)
+  
+  // Локация
+  address           String
+  city              String
+  district          String?
+  latitude          Float
+  longitude         Float
+  
+  // Характеристики
+  rooms             Int
+  bedrooms          Int
+  bathrooms         Int
+  area              Float           // в кв.м
+  floor             Int?
+  totalFloors       Int?
+  
+  // Цена
+  price             Decimal         @db.Decimal(12, 2)
+  currency          String          @default("ILS") // ₪
+  pricePerMonth     Decimal?        @db.Decimal(12, 2) // для аренды
+  deposit           Decimal?        @db.Decimal(12, 2)
+  
+  // Удобства
+  amenities         String[]        // JSON array: parking, elevator, balcony, etc
+  
+  // Медиа
+  images            String[]        // URLs изображений
+  videoUrl          String?
+  virtualTourUrl    String?
+  
+  // Даты для аренды
+  availableFrom     DateTime?
+  availableTo       DateTime?
+  minRentDays       Int?            // минимум дней аренды
+  
+  // Статистика
+  viewCount         Int             @default(0)
+  favoriteCount     Int             @default(0)
+  
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  publishedAt       DateTime?
+
+  // Связи
+  bookings          Booking[]
+  favorites         Favorite[]
+  reviews           Review[]
+  blockedDates      BlockedDate[]
+
+  @@index([ownerId])
+  @@index([city, dealType, status])
+  @@index([price])
+  @@index([latitude, longitude])
+}
+
+enum PropertyType {
+  APARTMENT       // Квартира
+  ROOM            // Комната
+  HOUSE           // Дом
+  STUDIO          // Студия
+  PENTHOUSE       // Пентхаус
+  VILLA           // Вилла
+}
+
+enum DealType {
+  SALE            // Продажа
+  RENT            // Аренда
+  BOTH            // Оба варианта
+}
+
+enum PropertyStatus {
+  DRAFT           // Черновик
+  PENDING         // На модерации
+  ACTIVE          // Активно
+  BOOKED          // Забронировано
+  RENTED          // Сдано
+  SOLD            // Продано
+  ARCHIVED        // В архиве
+  BLOCKED         // Заблокировано
+}
+
+// Заблокированные даты (для аренды)
+model BlockedDate {
+  id          String    @id @default(uuid())
+  propertyId  String
+  property    Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  startDate   DateTime
+  endDate     DateTime
+  reason      String?
+  
+  createdAt   DateTime  @default(now())
+
+  @@index([propertyId, startDate, endDate])
+}
+
+// Бронирования
+model Booking {
+  id              String        @id @default(uuid())
+  propertyId      String
+  property        Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Даты
+  checkIn         DateTime
+  checkOut        DateTime
+  
+  // Финансы
+  totalPrice      Decimal       @db.Decimal(12, 2)
+  depositAmount   Decimal       @db.Decimal(12, 2)
+  currency        String        @default("ILS")
+  
+  // Статус
+  status          BookingStatus @default(PENDING)
+  
+  // Гости
+  guestCount      Int           @default(1)
+  notes           String?       @db.Text
+  
+  // Дополнительная информация
+  cancelReason    String?
+  cancelledBy     String?
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  confirmedAt     DateTime?
+  cancelledAt     DateTime?
+
+  // Связи
+  payments        Payment[]
+  notifications   Notification[]
+
+  @@index([propertyId])
+  @@index([userId])
+  @@index([status])
+  @@index([checkIn, checkOut])
+}
+
+enum BookingStatus {
+  PENDING         // Ожидает подтверждения
+  CONFIRMED       // Подтверждено
+  PAID            // Оплачено
+  ACTIVE          // Активно (заселились)
+  COMPLETED       // Завершено
+  CANCELLED       // Отменено
+  REJECTED        // Отклонено владельцем
+}
+
+// Платежи
+model Payment {
+  id                String        @id @default(uuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookingId         String?
+  booking           Booking?      @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  
+  amount            Decimal       @db.Decimal(12, 2)
+  currency          String        @default("ILS")
+  
+  // Telegram Payment
+  telegramPaymentId String?       @unique
+  providerPaymentId String?
+  
+  status            PaymentStatus @default(PENDING)
+  paymentMethod     String?       // telegram_stars, card, etc
+  
+  description       String?
+  metadata          Json?
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  paidAt            DateTime?
+
+  @@index([userId])
+  @@index([bookingId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+// Избранное
+model Favorite {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId  String
+  property    Property  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, propertyId])
+  @@index([userId])
+}
+
+// Отзывы
+model Review {
+  id          String    @id @default(uuid())
+  authorId    String
+  author      User      @relation("ReviewAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  targetId    String
+  target      User      @relation("ReviewTarget", fields: [targetId], references: [id], onDelete: Cascade)
+  propertyId  String?
+  property    Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  
+  rating      Int       // 1-5
+  comment     String    @db.Text
+  
+  // Детальные оценки
+  cleanRating       Int?
+  locationRating    Int?
+  communicationRating Int?
+  
+  isVerified  Boolean   @default(false) // подтвержденное бронирование
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([targetId])
+  @@index([propertyId])
+  @@index([authorId])
+}
+
+// Уведомления
+model Notification {
+  id          String           @id @default(uuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type        NotificationType
+  title       String
+  message     String           @db.Text
+  
+  relatedId   String?          // ID связанного объекта (booking, property, etc)
+  bookingId   String?
+  booking     Booking?         @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  
+  isRead      Boolean          @default(false)
+  isSent      Boolean          @default(false)
+  
+  data        Json?            // дополнительные данные
+  
+  createdAt   DateTime         @default(now())
+  readAt      DateTime?
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  NEW_BOOKING         // Новое бронирование
+  BOOKING_CONFIRMED   // Бронирование подтверждено
+  BOOKING_CANCELLED   // Бронирование отменено
+  PAYMENT_RECEIVED    // Платеж получен
+  PAYMENT_FAILED      // Платеж не прошел
+  REVIEW_RECEIVED     // Новый отзыв
+  MESSAGE_RECEIVED    // Новое сообщение
+  PROPERTY_APPROVED   // Объявление одобрено
+  PROPERTY_REJECTED   // Объявление отклонено
+  REMINDER_CHECKIN    // Напоминание о заезде
+  REMINDER_CHECKOUT   // Напоминание о выезде
+  NEW_PROPERTY        // Новый объект по вашим критериям
+  PRICE_DROP          // Снижение цены
+}
+
+// Чат сообщения
+model Message {
+  id          String    @id @default(uuid())
+  senderId    String
+  sender      User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  
+  chatRoomId  String    // комбинация двух user ID
+  receiverId  String
+  
+  content     String    @db.Text
+  attachments String[]  // URLs
+  
+  isRead      Boolean   @default(false)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([chatRoomId, createdAt])
+  @@index([senderId])
+  @@index([receiverId, isRead])
+}
