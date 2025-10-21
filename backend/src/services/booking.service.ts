@@ -1,5 +1,5 @@
 import { prisma } from '../config/database';
-import { BookingStatus, Prisma } from '@prisma/client';
+import { BookingStatus } from '@prisma/client';
 import { AppError } from '../middleware/errorHandler';
 import { io } from '../server';
 

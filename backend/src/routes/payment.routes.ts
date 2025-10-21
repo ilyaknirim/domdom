@@ -195,10 +195,16 @@ router.post('/webhook', async (req: Request, res: Response, next: NextFunction) 
         },
       });
 
-      if (payment.booking) {
+      // Получить бронирование с объектом
+      const bookingWithProperty = await prisma.booking.findUnique({
+        where: { id: payment.bookingId },
+        include: { property: true },
+      });
+
+      if (bookingWithProperty) {
         await prisma.notification.create({
           data: {
-            userId: payment.booking.property.ownerId,
+            userId: bookingWithProperty.property.ownerId,
             type: 'PAYMENT_RECEIVED',
             title: 'Получен платеж',
             message: `Платеж за бронирование получен`,

@@ -10,12 +10,41 @@
 [![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma)](https://www.prisma.io/)
 [![Telegram](https://img.shields.io/badge/Telegram-Mini_App-blue?logo=telegram)](https://core.telegram.org/bots/webapps)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?logo=github-actions)](https://github.com/features/actions)
 
-[Быстрый старт](./QUICKSTART.md) • [Документация](./START_HERE.md) • [API](./API_DOCUMENTATION.md) • [Деплой](./DEPLOY.md)
+[Быстрый старт](./QUICKSTART.md) • [Документация](./START_HERE.md) • [API](./API_DOCUMENTATION.md) • [Деплой](./DEPLOY.md) • [Contributing](./CONTRIBUTING.md)
+
+**[🎬 Демо видео](#) | [🤖 Попробовать бота](https://t.me/your_bot_name)**
 
 </div>
 
 ---
+
+## 📸 Скриншоты
+
+<div align="center">
+  <img src="./docs/screenshots/home.png" width="200" alt="Главная">
+  <img src="./docs/screenshots/search.png" width="200" alt="Поиск">
+  <img src="./docs/screenshots/property.png" width="200" alt="Объект">
+  <img src="./docs/screenshots/chat.png" width="200" alt="Чат">
+</div>
+
+<sub>*Скриншоты демонстрационные. Добавьте реальные скриншоты вашего приложения.*</sub>
+
+---
+
+## ✨ Особенности
+
+- 🚀 **Полностью функциональное приложение** - готово к использованию из коробки
+- 📱 **Telegram Mini App** - встроено прямо в Telegram, без установки
+- 🔒 **Безопасность** - JWT, rate limiting, валидация данных
+- 🌍 **Мультиязычность** - עברית, Русский, English
+- 💳 **Платежи** - интеграция с Telegram Payments
+- 💬 **Real-time чат** - WebSocket для мгновенных сообщений
+- 📊 **Аналитика** - отслеживание просмотров и интереса
+- 🗺️ **Карты** - интеграция с картографическими сервисами
+- 🐳 **Docker** - легкий деплой через Docker Compose
+- 📚 **Документация** - более 2000 строк документации
 
 ## 🎯 Основной функционал
 
@@ -48,6 +77,16 @@
 - Русский (основной)
 - עברית (иврит)
 - English
+
+## 📊 Статистика проекта
+
+```
+📁 Файлов: 100+
+📝 Строк кода: 10,000+
+📚 Строк документации: 2,000+
+🧪 Тестов: (в разработке)
+⭐ GitHub Stars: 0 (будьте первым!)
+```
 
 ## 🛠️ Технологический стек
 
@@ -103,25 +142,68 @@ israeli-realestate-miniapp/
 
 ## 🚀 Быстрый старт
 
+### Вариант 1: Docker (рекомендуется)
+
 ```bash
-# Клонирование репозитория
-git clone <repository-url>
+# 1. Клонируйте репозиторий
+git clone https://github.com/yourusername/israeli-realestate-miniapp.git
+cd israeli-realestate-miniapp
 
-# Установка зависимостей
-cd backend && npm install
-cd ../frontend && npm install
+# 2. Настройте переменные окружения
+cp backend/.env.template backend/.env
+cp frontend/.env.template frontend/.env
+# Отредактируйте .env файлы
 
-# Настройка переменных окружения
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
-
-# Запуск с Docker
+# 3. Запустите всё одной командой
 docker-compose up -d
 
-# Или локально
-cd backend && npm run dev
-cd frontend && npm run dev
+# 4. Примените миграции базы данных
+docker-compose exec backend npx prisma migrate deploy
+
+# 5. Добавьте тестовые данные (опционально)
+docker-compose exec backend npm run prisma:seed
+
+# ✅ Готово! Приложение запущено:
+# - Backend: http://localhost:3000
+# - Frontend: http://localhost:5173
 ```
+
+### Вариант 2: Локальная установка
+
+```bash
+# 1. Установите PostgreSQL и Redis
+# macOS: brew install postgresql redis
+# Ubuntu: apt install postgresql redis-server
+
+# 2. Клонируйте и настройте
+git clone https://github.com/yourusername/israeli-realestate-miniapp.git
+cd israeli-realestate-miniapp
+
+# 3. Backend
+cd backend
+npm install
+cp .env.template .env
+# Отредактируйте .env
+npx prisma migrate dev
+npm run prisma:seed
+npm run dev
+
+# 4. Frontend (в новом терминале)
+cd frontend
+npm install
+cp .env.template .env
+# Отредактируйте .env
+npm run dev
+```
+
+### 🤖 Настройка Telegram Bot
+
+1. Создайте бота через [@BotFather](https://t.me/BotFather)
+2. Получите токен и добавьте в `backend/.env`
+3. Настройте Menu Button в BotFather
+4. Для локального тестирования используйте [ngrok](https://ngrok.com)
+
+📖 Подробная инструкция: [QUICKSTART.md](./QUICKSTART.md)
 
 ## 📝 API Endpoints
 
@@ -164,10 +246,126 @@ cd frontend && npm run dev
 - База данных: PostgreSQL на Railway / Supabase
 - Redis: Upstash / Redis Cloud
 
+## 🧪 Тестирование
+
+```bash
+# Backend тесты
+cd backend
+npm test
+npm run test:coverage
+
+# Frontend тесты (в разработке)
+cd frontend
+npm test
+```
+
+## 📦 Production деплой
+
+### Railway.app (Backend)
+```bash
+railway login
+railway init
+railway up
+```
+
+### Vercel (Frontend)
+```bash
+vercel login
+vercel --prod
+```
+
+📖 Полная инструкция: [DEPLOY.md](./DEPLOY.md)
+
+## 🤝 Contributing
+
+Мы приветствуем вклад в проект! Пожалуйста, прочитайте [CONTRIBUTING.md](./CONTRIBUTING.md) перед созданием Pull Request.
+
+### Шаги:
+1. Fork проекта
+2. Создайте ветку для фичи (`git checkout -b feature/AmazingFeature`)
+3. Commit изменения (`git commit -m 'Add some AmazingFeature'`)
+4. Push в ветку (`git push origin feature/AmazingFeature`)
+5. Откройте Pull Request
+
+## 🗺️ Roadmap
+
+- [x] Базовый CRUD для объектов недвижимости
+- [x] Система бронирований
+- [x] Real-time чат
+- [x] Мультиязычность
+- [x] Docker конфигурация
+- [ ] Unit и Integration тесты
+- [ ] Admin панель
+- [ ] Email уведомления
+- [ ] Интеграция с внешними платформами (Yad2, Homeless)
+- [ ] Mobile приложения (React Native)
+- [ ] AI рекомендации
+
+Полный список: [TODO.md](./TODO.md)
+
+## 📊 Архитектура
+
+```
+┌─────────────┐
+│  Telegram   │
+│  Mini App   │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐      ┌──────────────┐
+│   Frontend  │◄────►│   Backend    │
+│ React + TS  │      │ Express + TS │
+└─────────────┘      └──────┬───────┘
+                            │
+              ┌─────────────┴─────────────┐
+              ▼                           ▼
+       ┌─────────────┐            ┌─────────────┐
+       │ PostgreSQL  │            │    Redis    │
+       │  Database   │            │    Cache    │
+       └─────────────┘            └─────────────┘
+```
+
+## 🔐 Безопасность
+
+Если вы обнаружили уязвимость в системе безопасности, пожалуйста, сообщите нам через [SECURITY.md](./SECURITY.md)
+
+## 📝 Changelog
+
+Все изменения документированы в [CHANGELOG.md](./CHANGELOG.md)
+
 ## 📄 Лицензия
 
-MIT
+Этот проект лицензирован под MIT License - см. файл [LICENSE](./LICENSE) для деталей.
 
-## 👥 Поддержка
+## 👥 Авторы
 
-Для вопросов и предложений создавайте Issues в репозитории.
+- **Ваше имя** - *Начальная работа* - [YourGitHub](https://github.com/yourusername)
+
+Смотрите также список [контрибьюторов](https://github.com/yourusername/israeli-realestate-miniapp/contributors), участвовавших в проекте.
+
+## 🙏 Благодарности
+
+- Telegram за отличную платформу Mini Apps
+- Сообщество Open Source за замечательные инструменты
+- Всем контрибьюторам этого проекта
+
+## 💬 Поддержка
+
+- 📫 Email: support@example.com
+- 💬 Telegram: [@your_support](https://t.me/your_support)
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/israeli-realestate-miniapp/issues)
+- 💡 Discussions: [GitHub Discussions](https://github.com/yourusername/israeli-realestate-miniapp/discussions)
+
+## ⭐ Поддержите проект
+
+Если вам понравился этот проект, поставьте ⭐ на GitHub!
+
+---
+
+<div align="center">
+  
+Сделано с ❤️ в Израиле 🇮🇱
+
+[⬆ Вернуться наверх](#-israeli-real-estate-mini-app)
+
+</div>

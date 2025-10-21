@@ -20,7 +20,14 @@
     "from": "от",
     "to": "до",
     "perMonth": "в месяц",
-    "currency": "₪"
+    "currency": "₪",
+    "viewAll": "Все",
+    "days": "дней",
+    "apply": "Применить",
+    "reset": "Сбросить",
+
+    "noResults": "Ничего не найдено",
+    "all": "Все"
   },
   "home": {
     "title": "Недвижимость в Израиле",
@@ -131,6 +138,33 @@
     "paymentReceived": "Платеж получен",
     "newMessage": "Новое сообщение",
     "newReview": "Новый отзыв"
+  },
+  "search": {
+    "title": "Поиск",
+    "noResults": "Ничего не найдено",
+    "resultsFound": "Найдено {{count}} объектов",
+    "filters": "Фильтры",
+    "sortBy": "Сортировка",
+    "priceAsc": "Цена: по возрастанию",
+    "priceDesc": "Цена: по убыванию",
+    "newest": "Новые",
+    "popular": "Популярные"
+  },
+  "createProperty": {
+    "title": "Создать объявление",
+    "basicInfo": "Основная информация",
+    "propertyTitle": "Название объявления",
+    "propertyType": "Тип недвижимости",
+    "dealType": "Тип сделки",
+    "location": "Местоположение",
+    "address": "Адрес",
+    "city": "Город",
+    "details": "Характеристики",
+    "photos": "Фотографии",
+    "uploadPhotos": "Загрузить фото",
+    "pricing": "Цена",
+    "submit": "Опубликовать",
+    "draft": "Сохранить черновик"
   },
   "errors": {
     "general": "Что-то пошло не так",

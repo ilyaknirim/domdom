@@ -20,7 +20,13 @@
     "from": "מ",
     "to": "עד",
     "perMonth": "לחודש",
-    "currency": "₪"
+    "currency": "₪",
+    "viewAll": "הצג הכל",
+    "days": "ימים",
+    "apply": "החל",
+    "reset": "איפוס",
+    "noResults": "לא נמצאו תוצאות",
+    "all": "הכל"
   },
   "home": {
     "title": "נדל\"ן בישראל",
@@ -69,5 +75,102 @@
     "security": "אבטחה",
     "garden": "גינה",
     "petFriendly": "ידידותי לחיות מחמד"
+  },
+  "filters": {
+    "title": "מסננים",
+    "propertyType": "סוג נכס",
+    "dealType": "סוג עסקה",
+    "priceRange": "טווח מחירים",
+    "rooms": "מספר חדרים",
+    "area": "שטח, מ״ר",
+    "city": "עיר",
+    "district": "אזור",
+    "applyFilters": "החל",
+    "resetFilters": "איפוס"
+  },
+  "booking": {
+    "title": "הזמנה",
+    "checkIn": "כניסה",
+    "checkOut": "יציאה",
+    "guests": "אורחים",
+    "totalPrice": "סך הכל",
+    "deposit": "מקדמה",
+    "confirmBooking": "אשר הזמנה",
+    "bookingDetails": "פרטי הזמנה",
+    "status": {
+      "pending": "ממתין לאישור",
+      "confirmed": "מאושר",
+      "paid": "שולם",
+      "active": "פעיל",
+      "completed": "הושלם",
+      "cancelled": "מבוטל",
+      "rejected": "נדחה"
+    }
+  },
+  "profile": {
+    "title": "פרופיל",
+    "editProfile": "ערוך פרופיל",
+    "myBookings": "ההזמנות שלי",
+    "myProperties": "הנכסים שלי",
+    "favorites": "מועדפים",
+    "reviews": "ביקורות",
+    "settings": "הגדרות",
+    "language": "שפה",
+    "notifications": "התראות",
+    "verified": "מאומת",
+    "rating": "דירוג"
+  },
+  "chat": {
+    "title": "צ'אט",
+    "typeMessage": "הקלד הודעה...",
+    "send": "שלח",
+    "online": "מחובר",
+    "offline": "לא מחובר",
+    "typing": "מקליד..."
+  },
+  "notifications": {
+    "title": "התראות",
+    "markAllAsRead": "סמן הכל כנקרא",
+    "noNotifications": "אין התראות",
+    "newBooking": "הזמנה חדשה",
+    "bookingConfirmed": "ההזמנה אושרה",
+    "paymentReceived": "תשלום התקבל",
+    "newMessage": "הודעה חדשה",
+    "newReview": "ביקורת חדשה"
+  },
+  "search": {
+    "title": "חיפוש",
+    "noResults": "לא נמצאו תוצאות",
+    "resultsFound": "נמצאו {{count}} נכסים",
+    "filters": "מסננים",
+    "sortBy": "מיין לפי",
+    "priceAsc": "מחיר: נמוך לגבוה",
+    "priceDesc": "מחיר: גבוה לנמוך",
+    "newest": "חדשים",
+    "popular": "פופולריים"
+  },
+  "createProperty": {
+    "title": "צור מודעה",
+    "basicInfo": "מידע בסיסי",
+    "propertyTitle": "כותרת נכס",
+    "propertyType": "סוג נכס",
+    "dealType": "סוג עסקה",
+    "location": "מיקום",
+    "address": "כתובת",
+    "city": "עיר",
+    "details": "פרטים",
+    "photos": "תמונות",
+    "uploadPhotos": "העלה תמונות",
+    "pricing": "מחיר",
+    "submit": "פרסם",
+    "draft": "שמור טיוטה"
+  },
+  "errors": {
+    "general": "משהו השתבש",
+    "network": "שגיאת רשת",
+    "notFound": "לא נמצא",
+    "unauthorized": "נדרשת אימות",
+    "forbidden": "גישה נדחתה",
+    "validation": "שגיאת אימות"
   }
 }

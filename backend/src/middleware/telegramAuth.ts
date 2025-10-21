@@ -26,19 +26,21 @@ export const validateTelegramWebAppData = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+) => {
   try {
     const initData = req.headers['x-telegram-init-data'] as string;
     
     if (!initData) {
       logger.warn('Missing Telegram init data');
-      return res.status(401).json({ error: 'Unauthorized: Missing Telegram data' });
+      res.status(401).json({ error: 'Unauthorized: Missing Telegram data' });
+      return;
     }
 
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     if (!BOT_TOKEN) {
       logger.error('TELEGRAM_BOT_TOKEN not configured');
-      return res.status(500).json({ error: 'Server configuration error' });
+      res.status(500).json({ error: 'Server configuration error' });
+      return;
     }
 
     // Разбор init data
@@ -48,7 +50,8 @@ export const validateTelegramWebAppData = (
 
     if (!hash) {
       logger.warn('Missing hash in init data');
-      return res.status(401).json({ error: 'Unauthorized: Invalid data' });
+      res.status(401).json({ error: 'Unauthorized: Invalid data' });
+      return;
     }
 
     // Сортировка параметров
@@ -72,7 +75,8 @@ export const validateTelegramWebAppData = (
     // Сравнение хешей
     if (calculatedHash !== hash) {
       logger.warn('Invalid hash signature');
-      return res.status(401).json({ error: 'Unauthorized: Invalid signature' });
+      res.status(401).json({ error: 'Unauthorized: Invalid signature' });
+      return;
     }
 
     // Проверка времени (данные не старше 24 часов)
@@ -84,7 +88,8 @@ export const validateTelegramWebAppData = (
 
       if (currentTimestamp - authTimestamp > maxAge) {
         logger.warn('Init data expired');
-        return res.status(401).json({ error: 'Unauthorized: Data expired' });
+        res.status(401).json({ error: 'Unauthorized: Data expired' });
+        return;
       }
     }
 
@@ -96,14 +101,15 @@ export const validateTelegramWebAppData = (
         logger.info(`Authenticated user: ${req.telegramUser?.id}`);
       } catch (e) {
         logger.error('Failed to parse user data', e);
-        return res.status(401).json({ error: 'Unauthorized: Invalid user data' });
+        res.status(401).json({ error: 'Unauthorized: Invalid user data' });
+        return;
       }
     }
 
-    return next();
+    next();
   } catch (error) {
     logger.error('Telegram auth validation error:', error);
-    return res.status(401).json({ error: 'Unauthorized' });
+    res.status(401).json({ error: 'Unauthorized' });
   }
 };
 
@@ -114,12 +120,13 @@ export const optionalTelegramAuth = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+) => {
   const initData = req.headers['x-telegram-init-data'] as string;
   
   if (!initData) {
-    return next();
+    next();
+    return;
   }
 
-  return validateTelegramWebAppData(req, res, next);
+  validateTelegramWebAppData(req, res, next);
 };

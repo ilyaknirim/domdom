@@ -20,7 +20,13 @@
     "from": "from",
     "to": "to",
     "perMonth": "per month",
-    "currency": "₪"
+    "currency": "₪",
+    "viewAll": "View all",
+    "days": "days",
+    "apply": "Apply",
+    "reset": "Reset",
+    "noResults": "No results found",
+    "all": "All"
   },
   "home": {
     "title": "Real Estate in Israel",
@@ -69,5 +75,103 @@
     "security": "Security",
     "garden": "Garden",
     "petFriendly": "Pet Friendly"
+  },
+  "filters": {
+    "title": "Filters",
+    "propertyType": "Property Type",
+    "dealType": "Deal Type",
+    "priceRange": "Price Range",
+    "rooms": "Number of Rooms",
+    "area": "Area, m²",
+    "city": "City",
+    "district": "District",
+    "applyFilters": "Apply",
+    "resetFilters": "Reset"
+  },
+  "booking": {
+    "title": "Booking",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "totalPrice": "Total",
+    "deposit": "Deposit",
+    "confirmBooking": "Confirm Booking",
+    "bookingDetails": "Booking Details",
+    "status": {
+      "pending": "Pending Confirmation",
+      "confirmed": "Confirmed",
+      "paid": "Paid",
+      "active": "Active",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "myBookings": "My Bookings",
+    "myProperties": "My Properties",
+    "favorites": "Favorites",
+    "reviews": "Reviews",
+    "settings": "Settings",
+    "language": "Language",
+    "notifications": "Notifications",
+    "verified": "Verified",
+    "rating": "Rating"
+  },
+  "chat": {
+    "title": "Chat",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "typing..."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllAsRead": "Mark all as read",
+    "noNotifications": "No notifications",
+    "newBooking": "New booking",
+    "bookingConfirmed": "Booking confirmed",
+    "paymentReceived": "Payment received",
+    "newMessage": "New message",
+    "newReview": "New review"
+  },
+  "search": {
+    "title": "Search",
+    "noResults": "No results found",
+    "resultsFound": "{{count}} properties found",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "priceAsc": "Price: Low to High",
+    "priceDesc": "Price: High to Low",
+    "newest": "Newest",
+    "popular": "Popular"
+  },
+  "createProperty": {
+    "title": "Create Listing",
+    "basicInfo": "Basic Information",
+    "propertyTitle": "Property Title",
+    "propertyType": "Property Type",
+    "dealType": "Deal Type",
+    "location": "Location",
+    "address": "Address",
+    "city": "City",
+    "details": "Details",
+    "photos": "Photos",
+    "uploadPhotos": "Upload Photos",
+    "pricing": "Pricing",
+    "submit": "Publish",
+    "draft": "Save as Draft"
+  },
+  "errors": {
+    "general": "Something went wrong",
+    "network": "Network error",
+    "notFound": "Not found",
+    "unauthorized": "Authorization required",
+    "forbidden": "Access denied",
+    "validation": "Validation error"
   }
+}
 }
