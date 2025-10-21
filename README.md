@@ -14,7 +14,7 @@
 
 [Быстрый старт](./QUICKSTART.md) • [Документация](./START_HERE.md) • [API](./API_DOCUMENTATION.md) • [Деплой](./DEPLOY.md) • [Contributing](./CONTRIBUTING.md)
 
-**[🎬 Демо видео](#) | [🤖 Попробовать бота](https://t.me/your_bot_name)**
+**[📦 GitHub](https://github.com/ilyaknirim/domdom) | [📖 Документация](./START_HERE.md) | [🐛 Issues](https://github.com/ilyaknirim/domdom/issues)**
 
 </div>
 
@@ -146,8 +146,8 @@ israeli-realestate-miniapp/
 
 ```bash
 # 1. Клонируйте репозиторий
-git clone https://github.com/yourusername/israeli-realestate-miniapp.git
-cd israeli-realestate-miniapp
+git clone https://github.com/ilyaknirim/domdom.git
+cd domdom
 
 # 2. Настройте переменные окружения
 cp backend/.env.template backend/.env
@@ -176,8 +176,8 @@ docker-compose exec backend npm run prisma:seed
 # Ubuntu: apt install postgresql redis-server
 
 # 2. Клонируйте и настройте
-git clone https://github.com/yourusername/israeli-realestate-miniapp.git
-cd israeli-realestate-miniapp
+git clone https://github.com/ilyaknirim/domdom.git
+cd domdom
 
 # 3. Backend
 cd backend
@@ -339,9 +339,9 @@ vercel --prod
 
 ## 👥 Авторы
 
-- **Ваше имя** - *Начальная работа* - [YourGitHub](https://github.com/yourusername)
+- **ilyaknirim** - *Создатель проекта* - [GitHub](https://github.com/ilyaknirim)
 
-Смотрите также список [контрибьюторов](https://github.com/yourusername/israeli-realestate-miniapp/contributors), участвовавших в проекте.
+Смотрите также список [контрибьюторов](https://github.com/ilyaknirim/domdom/contributors), участвовавших в проекте.
 
 ## 🙏 Благодарности
 
@@ -352,9 +352,9 @@ vercel --prod
 ## 💬 Поддержка
 
 - 📫 Email: support@example.com
-- 💬 Telegram: [@your_support](https://t.me/your_support)
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/israeli-realestate-miniapp/issues)
-- 💡 Discussions: [GitHub Discussions](https://github.com/yourusername/israeli-realestate-miniapp/discussions)
+- 💬 Telegram: [@ilyaknirim](https://t.me/ilyaknirim)
+- 🐛 Issues: [GitHub Issues](https://github.com/ilyaknirim/domdom/issues)
+- 💡 Discussions: [GitHub Discussions](https://github.com/ilyaknirim/domdom/discussions)
 
 ## ⭐ Поддержите проект
 
