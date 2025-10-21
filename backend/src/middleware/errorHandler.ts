@@ -18,6 +18,7 @@ export const errorHandler = (
   err: Error | AppError,
   req: Request,
   res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ) => {
   if (err instanceof AppError) {

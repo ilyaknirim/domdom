@@ -1,22 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import crypto from 'crypto';
 import { logger } from '../utils/logger';
-
-// Расширяем тип Request для добавления telegramUser
-declare global {
-  namespace Express {
-    interface Request {
-      telegramUser?: {
-        id: number;
-        first_name?: string;
-        last_name?: string;
-        username?: string;
-        language_code?: string;
-        is_premium?: boolean;
-      };
-    }
-  }
-}
+import '../types/express';
 
 /**
  * Валидация данных Telegram Web App

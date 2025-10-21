@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeftIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
 const ChatPage = () => {
-  const { userId } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [message, setMessage] = useState('');

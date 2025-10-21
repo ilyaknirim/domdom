@@ -3,6 +3,7 @@ import { logger } from '../utils/logger';
 
 // Singleton pattern для Prisma Client
 declare global {
+  // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
 
@@ -17,12 +18,11 @@ export const prisma =
 
 // Логирование событий базы данных
 
-prisma.$on('warn' as never, (e: any) => {
+prisma.$on('warn' as never, (e: unknown) => {
   logger.warn('Prisma warning:', e);
 });
 
-
-prisma.$on('error' as never, (e: any) => {
+prisma.$on('error' as never, (e: unknown) => {
   logger.error('Prisma error:', e);
 });
 

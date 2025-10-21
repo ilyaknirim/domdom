@@ -2,14 +2,14 @@ import { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  HomeIcon,
+
   MagnifyingGlassIcon,
   HeartIcon,
   UserIcon,
   CalendarIcon,
 } from '@heroicons/react/24/outline';
 import {
-  HomeIcon as HomeIconSolid,
+
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   HeartIcon as HeartIconSolid,
   UserIcon as UserIconSolid,

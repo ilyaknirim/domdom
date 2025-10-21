@@ -17,7 +17,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     
     const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
 
-    const where: any = { userId };
+    const where: { userId: string; isRead?: boolean } = { userId };
     if (unreadOnly === 'true') {
       where.isRead = false;
     }

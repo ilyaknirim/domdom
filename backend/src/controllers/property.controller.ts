@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import propertyService from '../services/property.service';
 import { AppError } from '../middleware/errorHandler';
+import { PropertyType, DealType } from '@prisma/client';
 
 export class PropertyController {
   /**
@@ -33,8 +34,8 @@ export class PropertyController {
       const filters = {
         city: city as string,
         district: district as string,
-        type: type as any,
-        dealType: dealType as any,
+        type: type as PropertyType,
+        dealType: dealType as DealType,
         minPrice: minPrice ? parseFloat(minPrice as string) : undefined,
         maxPrice: maxPrice ? parseFloat(maxPrice as string) : undefined,
         minRooms: minRooms ? parseInt(minRooms as string) : undefined,
