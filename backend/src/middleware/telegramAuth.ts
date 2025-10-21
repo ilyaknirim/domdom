@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import crypto from 'crypto';
 import { logger } from '../utils/logger';
-import '../types/express';
 
 /**
  * Валидация данных Telegram Web App
