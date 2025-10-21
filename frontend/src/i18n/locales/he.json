@@ -58,7 +58,9 @@
     "viewOnMap": "הצג במפה",
     "contactOwner": "צור קשר עם בעלים",
     "bookNow": "הזמן עכשיו",
-    "checkAvailability": "בדוק זמינות"
+    "checkAvailability": "בדוק זמינות",
+    "create": "צור מודעה",
+    "createFirst": "צור את המודעה הראשונה"
   },
   "amenities": {
     "parking": "חניה",
@@ -97,6 +99,7 @@
     "deposit": "מקדמה",
     "confirmBooking": "אשר הזמנה",
     "bookingDetails": "פרטי הזמנה",
+    "priceSummary": "סיכום מחיר",
     "status": {
       "pending": "ממתין לאישור",
       "confirmed": "מאושר",
@@ -106,6 +109,15 @@
       "cancelled": "מבוטל",
       "rejected": "נדחה"
     }
+  },
+  "bookings": {
+    "empty": "אין לך הזמנות עדיין"
+  },
+  "myProperties": {
+    "empty": "אין לך מודעות עדיין"
+  },
+  "favorites": {
+    "empty": "אין לך מועדפים עדיין"
   },
   "profile": {
     "title": "פרופיל",
@@ -126,7 +138,8 @@
     "send": "שלח",
     "online": "מחובר",
     "offline": "לא מחובר",
-    "typing": "מקליד..."
+    "typing": "מקליד...",
+    "noMessages": "אין הודעות"
   },
   "notifications": {
     "title": "התראות",

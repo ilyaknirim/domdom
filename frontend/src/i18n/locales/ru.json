@@ -58,7 +58,9 @@
     "viewOnMap": "Посмотреть на карте",
     "contactOwner": "Связаться с владельцем",
     "bookNow": "Забронировать",
-    "checkAvailability": "Проверить доступность"
+    "checkAvailability": "Проверить доступность",
+    "create": "Создать объявление",
+    "createFirst": "Создать первое объявление"
   },
   "amenities": {
     "parking": "Парковка",
@@ -97,6 +99,7 @@
     "deposit": "Залог",
     "confirmBooking": "Подтвердить бронирование",
     "bookingDetails": "Детали бронирования",
+    "priceSummary": "Итого к оплате",
     "status": {
       "pending": "Ожидает подтверждения",
       "confirmed": "Подтверждено",
@@ -106,6 +109,15 @@
       "cancelled": "Отменено",
       "rejected": "Отклонено"
     }
+  },
+  "bookings": {
+    "empty": "У вас пока нет бронирований"
+  },
+  "myProperties": {
+    "empty": "У вас пока нет объявлений"
+  },
+  "favorites": {
+    "empty": "У вас пока нет избранных объектов"
   },
   "profile": {
     "title": "Профиль",
@@ -126,7 +138,8 @@
     "send": "Отправить",
     "online": "В сети",
     "offline": "Не в сети",
-    "typing": "печатает..."
+    "typing": "печатает...",
+    "noMessages": "Нет сообщений"
   },
   "notifications": {
     "title": "Уведомления",

@@ -58,7 +58,9 @@
     "viewOnMap": "View on map",
     "contactOwner": "Contact owner",
     "bookNow": "Book now",
-    "checkAvailability": "Check availability"
+    "checkAvailability": "Check availability",
+    "create": "Create listing",
+    "createFirst": "Create your first listing"
   },
   "amenities": {
     "parking": "Parking",
@@ -97,6 +99,7 @@
     "deposit": "Deposit",
     "confirmBooking": "Confirm Booking",
     "bookingDetails": "Booking Details",
+    "priceSummary": "Price Summary",
     "status": {
       "pending": "Pending Confirmation",
       "confirmed": "Confirmed",
@@ -106,6 +109,15 @@
       "cancelled": "Cancelled",
       "rejected": "Rejected"
     }
+  },
+  "bookings": {
+    "empty": "You don't have any bookings yet"
+  },
+  "myProperties": {
+    "empty": "You don't have any listings yet"
+  },
+  "favorites": {
+    "empty": "You don't have any favorites yet"
   },
   "profile": {
     "title": "Profile",
@@ -126,7 +138,8 @@
     "send": "Send",
     "online": "Online",
     "offline": "Offline",
-    "typing": "typing..."
+    "typing": "typing...",
+    "noMessages": "No messages"
   },
   "notifications": {
     "title": "Notifications",
