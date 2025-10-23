@@ -30,8 +30,7 @@ class ApiService {
         const status = error.response?.status;
         const data = error.response?.data || {};
         const code = data.code || error.code || 'API_ERROR';
-        const rawErr = (data && (data.error ?? data.message)) ?? error.message ?? 'Unknown error';
-        const message = typeof rawErr === 'string' ? rawErr : JSON.stringify(rawErr);
+        const message = data.error || data.message || error.message || 'Unknown error';
         console.error('API Error:', { status, code, message, data });
         const enriched = new Error(message);
         (enriched as any).name = code;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { showAlert, hapticFeedback } from '../utils/telegram';
 import { api } from '../services/api';
 import AddressSelector from '../components/AddressSelector';
@@ -23,12 +23,13 @@ const CreatePropertyPage = () => {
     rooms: 1,
     bedrooms: 1,
     bathrooms: 1,
-    area: 0,
-    price: 0,
+    area: 50,
+    price: 1000,
     images: [] as string[],
   });
 
   const [addressSelected, setAddressSelected] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
 
   const handleAddressSelect = (addressData: AddressData) => {
     setFormData(prev => ({
@@ -41,11 +42,68 @@ const CreatePropertyPage = () => {
     setAddressSelected(true);
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setUploadingImages(true);
+    try {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        const formDataUpload = new FormData();
+        formDataUpload.append('image', file);
+        const response = await api.uploadImage(file);
+        return response.url;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images, ...uploadedUrls],
+      }));
+
+      hapticFeedback.notification('success');
+      showAlert(t('property.imagesUploaded', { count: uploadedUrls.length }));
+    } catch (error) {
+      hapticFeedback.notification('error');
+      showAlert(t('errors.general'));
+    } finally {
+      setUploadingImages(false);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validation
+    if (!formData.title.trim()) {
+      showAlert(t('property.title') + ' ' + t('errors.validation'));
+      return;
+    }
+
+    if (!formData.description.trim()) {
+      showAlert(t('property.description') + ' ' + t('errors.validation'));
+      return;
+    }
+
     if (!addressSelected) {
       showAlert(t('property.addressRequired'));
+      return;
+    }
+
+    if (formData.area <= 0) {
+      showAlert(t('property.area') + ' ' + t('errors.validation'));
+      return;
+    }
+
+    if (formData.price <= 0) {
+      showAlert(t('common.price') + ' ' + t('errors.validation'));
       return;
     }
 
@@ -57,9 +115,8 @@ const CreatePropertyPage = () => {
       navigate('/my-properties');
     } catch (error) {
       hapticFeedback.notification('error');
-      const raw = (error as any);
-      const msg = typeof raw?.message === 'string' ? raw.message : JSON.stringify(raw?.raw || raw || t('errors.general'));
-      const code = raw?.name;
+      const msg = (error as any)?.message || t('errors.general');
+      const code = (error as any)?.name;
       showAlert(code ? `${msg} (${code})` : msg);
     }
   };
@@ -82,7 +139,7 @@ const CreatePropertyPage = () => {
       {/* Form */}
       <form onSubmit={handleSubmit} className="p-4 space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-2">{t('property.title')}</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.title')}</label>
           <input
             type="text"
             value={formData.title}
@@ -93,7 +150,7 @@ const CreatePropertyPage = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">{t('property.description')}</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.description')}</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -105,7 +162,7 @@ const CreatePropertyPage = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">{t('property.type')}</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.type')}</label>
             <select
               value={formData.type}
               onChange={(e) => setFormData({ ...formData, type: e.target.value })}
@@ -119,7 +176,7 @@ const CreatePropertyPage = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">{t('property.dealType')}</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.dealType')}</label>
             <select
               value={formData.dealType}
               onChange={(e) => setFormData({ ...formData, dealType: e.target.value })}
@@ -133,7 +190,7 @@ const CreatePropertyPage = () => {
 
         {/* Address Selector */}
         <div>
-          <label className="block text-sm font-medium mb-2">{t('property.location')}</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.location')}</label>
           <AddressSelector
             onAddressSelect={handleAddressSelect}
             className="mb-4"
@@ -145,7 +202,7 @@ const CreatePropertyPage = () => {
 
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">{t('property.rooms')}</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.rooms')}</label>
             <input
               type="number"
               value={formData.rooms}
@@ -157,7 +214,7 @@ const CreatePropertyPage = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">{t('property.bedrooms')}</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.bedrooms')}</label>
             <input
               type="number"
               value={formData.bedrooms}
@@ -169,7 +226,7 @@ const CreatePropertyPage = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">{t('property.bathrooms')}</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.bathrooms')}</label>
             <input
               type="number"
               value={formData.bathrooms}
@@ -183,7 +240,7 @@ const CreatePropertyPage = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">{t('property.area')} (м²)</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.area')} (м²)</label>
             <input
               type="number"
               value={formData.area}
@@ -195,7 +252,7 @@ const CreatePropertyPage = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">{t('common.price')} (₪)</label>
+            <label className="block text-sm font-medium mb-2 text-gray-700">{t('common.price')} (₪)</label>
             <input
               type="number"
               value={formData.price}
@@ -207,7 +264,55 @@ const CreatePropertyPage = () => {
           </div>
         </div>
 
-        <button type="submit" className="btn-primary w-full">
+        {/* Image Upload */}
+        <div>
+          <label className="block text-sm font-medium mb-2 text-gray-700">{t('property.photos')}</label>
+          <div className="space-y-4">
+            {/* Image Preview */}
+            {formData.images.length > 0 && (
+              <div className="grid grid-cols-3 gap-2">
+                {formData.images.map((image, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={image}
+                      alt={`Property ${index + 1}`}
+                      className="w-full h-20 object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
+                    >
+                      <XMarkIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upload Button */}
+            <div className="relative">
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                disabled={uploadingImages}
+              />
+              <div className="flex items-center justify-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors">
+                <div className="text-center">
+                  <PhotoIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                  <p className="text-sm text-gray-600">
+                    {uploadingImages ? t('common.loading') : t('property.uploadPhotos')}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" className="btn-primary w-full" disabled={uploadingImages}>
           {t('property.publish')}
         </button>
       </form>

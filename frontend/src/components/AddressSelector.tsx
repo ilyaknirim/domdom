@@ -89,17 +89,19 @@ const AddressSelector: React.FC<AddressSelectorProps> = ({
   const [selectedAddress, setSelectedAddress] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
   const geocoderRef = useRef<google.maps.Geocoder | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const render = (status: Status) => {
     switch (status) {
       case Status.LOADING:
         return <div className="w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center">
-          <div className="text-gray-500">{t('common.loading')}</div>
+          <div className="text-gray-700">{t('common.loading')}</div>
         </div>;
       case Status.FAILURE:
         return <div className="w-full h-64 bg-red-50 rounded-lg flex items-center justify-center">
-          <div className="text-red-500">{t('errors.mapLoadError')}</div>
+          <div className="text-red-700">{t('errors.mapLoadError')}</div>
         </div>;
       case Status.SUCCESS:
         return (
@@ -188,11 +190,36 @@ const AddressSelector: React.FC<AddressSelectorProps> = ({
     }
   }, [handleSearch]);
 
+  // Initialize autocomplete when component mounts
+  useEffect(() => {
+    if (inputRef.current && (window as any).google && (window as any).google.maps && (window as any).google.maps.places) {
+      const autocompleteInstance = new (window as any).google.maps.places.Autocomplete(inputRef.current, {
+        types: ['address'],
+        componentRestrictions: { country: 'il' }, // Israel
+        fields: ['formatted_address', 'geometry', 'address_components']
+      });
+
+      autocompleteInstance.addListener('place_changed', () => {
+        const place = autocompleteInstance.getPlace();
+        if (place.geometry && place.geometry.location) {
+          const location = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng(),
+          };
+          geocodeLatLng(location);
+        }
+      });
+
+      setAutocomplete(autocompleteInstance);
+    }
+  }, []);
+
   return (
     <div className={`space-y-4 ${className}`}>
       {/* Search Input */}
       <div className="relative">
         <input
+          ref={inputRef}
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -203,7 +230,7 @@ const AddressSelector: React.FC<AddressSelectorProps> = ({
         <button
           onClick={handleSearch}
           disabled={isSearching || !searchQuery.trim()}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-gray-700 disabled:opacity-50"
         >
           <MagnifyingGlassIcon className="w-5 h-5" />
         </button>
@@ -233,7 +260,7 @@ const AddressSelector: React.FC<AddressSelectorProps> = ({
       </div>
 
       {/* Instructions */}
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-gray-700">
         {t('property.addressInstructions')}
       </div>
     </div>

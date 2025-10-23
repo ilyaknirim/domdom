@@ -67,7 +67,10 @@
     "bookNow": "Забронировать",
     "checkAvailability": "Проверить доступность",
     "create": "Создать объявление",
-    "createFirst": "Создать первое объявление"
+    "createFirst": "Создать первое объявление",
+    "photos": "Фотографии",
+    "uploadPhotos": "Загрузить фотографии",
+    "imagesUploaded": "Загружено {{count}} фото"
   },
   "amenities": {
     "parking": "Парковка",
