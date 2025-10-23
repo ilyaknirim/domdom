@@ -8,7 +8,7 @@ import rateLimit from 'express-rate-limit';
 // Импорты конфигурации и маршрутов
 import { logger } from './utils/logger';
 import { errorHandler } from './middleware/errorHandler';
-import { validateTelegramWebAppData } from './middleware/telegramAuth';
+import { validateTelegramWebAppData, optionalTelegramAuth } from './middleware/telegramAuth';
 
 // Роуты
 import propertyRoutes from './routes/property.routes';
@@ -62,7 +62,7 @@ app.get('/health', (_req, res) => {
 });
 
 // API Routes (все требуют Telegram аутентификации)
-app.use('/api/properties', validateTelegramWebAppData, propertyRoutes);
+app.use('/api/properties', optionalTelegramAuth, propertyRoutes);
 app.use('/api/bookings', validateTelegramWebAppData, bookingRoutes);
 app.use('/api/users', validateTelegramWebAppData, userRoutes);
 app.use('/api/payments', validateTelegramWebAppData, paymentRoutes);

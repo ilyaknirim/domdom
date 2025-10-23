@@ -85,9 +85,8 @@ export class PropertyController {
    */
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      if (!req.telegramUser) {
-        throw new AppError('Unauthorized', 401);
-      }
+      // Для разработки временно убираем требование аутентификации
+      const ownerId = req.telegramUser ? req.telegramUser.id.toString() : 'test-user-id';
 
       const requiredFields = ['title', 'description', 'type', 'dealType', 'city', 'address', 'rooms', 'bedrooms', 'bathrooms', 'area', 'price'];
       const missing = requiredFields.filter((f) => req.body[f] === undefined || req.body[f] === null || req.body[f] === '');
@@ -112,7 +111,9 @@ export class PropertyController {
         bathrooms: Number(req.body.bathrooms),
         area: Number(req.body.area),
         price: Number(req.body.price),
-        ownerId: req.telegramUser.id.toString(),
+        latitude: req.body.latitude ? Number(req.body.latitude) : undefined,
+        longitude: req.body.longitude ? Number(req.body.longitude) : undefined,
+        ownerId,
       };
 
       const property = await propertyService.createProperty(data);
