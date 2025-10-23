@@ -46,7 +46,7 @@ export interface Property {
   };
 }
 
-export type PropertyType = 
+export type PropertyType =
   | 'APARTMENT'
   | 'ROOM'
   | 'HOUSE'
@@ -218,4 +218,29 @@ export interface Favorite {
   propertyId: string;
   createdAt: string;
   property?: Property;
+}
+
+// New types for address selection
+export interface AddressData {
+  address: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface CreatePropertyData {
+  title: string;
+  description: string;
+  type: PropertyType;
+  dealType: DealType;
+  address: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  rooms: number;
+  bedrooms: number;
+  bathrooms: number;
+  area: number;
+  price: number;
+  images: string[];
 }

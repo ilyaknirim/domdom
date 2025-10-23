@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { showAlert, hapticFeedback } from '../utils/telegram';
 import { api } from '../services/api';
+import AddressSelector from '../components/AddressSelector';
+import { AddressData } from '../services/types';
 
 const CreatePropertyPage = () => {
   const { t } = useTranslation();
@@ -14,8 +16,10 @@ const CreatePropertyPage = () => {
     description: '',
     type: 'APARTMENT',
     dealType: 'RENT',
-    city: '',
     address: '',
+    city: '',
+    latitude: 0,
+    longitude: 0,
     rooms: 1,
     bedrooms: 1,
     bathrooms: 1,
@@ -24,8 +28,26 @@ const CreatePropertyPage = () => {
     images: [] as string[],
   });
 
+  const [addressSelected, setAddressSelected] = useState(false);
+
+  const handleAddressSelect = (addressData: AddressData) => {
+    setFormData(prev => ({
+      ...prev,
+      address: addressData.address,
+      city: addressData.city,
+      latitude: addressData.latitude,
+      longitude: addressData.longitude,
+    }));
+    setAddressSelected(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!addressSelected) {
+      showAlert(t('property.addressRequired'));
+      return;
+    }
 
     try {
       hapticFeedback.impact('medium');
@@ -109,26 +131,16 @@ const CreatePropertyPage = () => {
           </div>
         </div>
 
+        {/* Address Selector */}
         <div>
-          <label className="block text-sm font-medium mb-2">{t('property.city')}</label>
-          <input
-            type="text"
-            value={formData.city}
-            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-            className="input-field"
-            required
+          <label className="block text-sm font-medium mb-2">{t('property.location')}</label>
+          <AddressSelector
+            onAddressSelect={handleAddressSelect}
+            className="mb-4"
           />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">{t('property.address')}</label>
-          <input
-            type="text"
-            value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-            className="input-field"
-            required
-          />
+          {!addressSelected && (
+            <p className="text-sm text-red-600 mt-1">{t('property.addressRequired')}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-3 gap-4">

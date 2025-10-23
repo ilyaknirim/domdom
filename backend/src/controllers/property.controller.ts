@@ -45,8 +45,8 @@ export class PropertyController {
         amenities: amenities ? (amenities as string).split(',') : undefined,
         availableFrom: availableFrom ? new Date(availableFrom as string) : undefined,
         availableTo: availableTo ? new Date(availableTo as string) : undefined,
-        latitude: latitude ? parseFloat(latitude as string) : undefined,
-        longitude: longitude ? parseFloat(longitude as string) : undefined,
+        latitude: latitude ? parseFloat(latitude as string) : 0,
+        longitude: longitude ? parseFloat(longitude as string) : 0,
         radiusKm: radiusKm ? parseFloat(radiusKm as string) : undefined,
       };
 
@@ -88,7 +88,7 @@ export class PropertyController {
       // Для разработки временно убираем требование аутентификации
       const ownerId = req.telegramUser ? req.telegramUser.id.toString() : 'test-user-id';
 
-      const requiredFields = ['title', 'description', 'type', 'dealType', 'city', 'address', 'rooms', 'bedrooms', 'bathrooms', 'area', 'price'];
+      const requiredFields = ['title', 'description', 'type', 'dealType', 'city', 'address', 'rooms', 'bedrooms', 'bathrooms', 'area', 'price', 'latitude', 'longitude'];
       const missing = requiredFields.filter((f) => req.body[f] === undefined || req.body[f] === null || req.body[f] === '');
       if (missing.length > 0) {
         throw new AppError(`Validation error: missing fields: ${missing.join(', ')}`, 400);

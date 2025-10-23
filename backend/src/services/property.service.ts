@@ -16,8 +16,8 @@ export interface PropertyFilters {
   amenities?: string[];
   availableFrom?: Date;
   availableTo?: Date;
-  latitude?: number;
-  longitude?: number;
+  latitude: number;
+  longitude: number;
   radiusKm?: number;
 }
 
