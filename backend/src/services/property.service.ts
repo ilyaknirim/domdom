@@ -30,8 +30,8 @@ export interface CreatePropertyData {
   address: string;
   city: string;
   district?: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   rooms: number;
   bedrooms: number;
   bathrooms: number;
