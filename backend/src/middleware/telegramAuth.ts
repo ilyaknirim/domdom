@@ -16,14 +16,14 @@ export const validateTelegramWebAppData = (
     
     if (!initData) {
       logger.warn('Missing Telegram init data');
-      res.status(401).json({ error: 'Unauthorized: Missing Telegram data' });
+      res.status(401).json({ error: 'Unauthorized: Missing Telegram data', code: 'MISSING_INIT_DATA' });
       return;
     }
 
     const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
     if (!BOT_TOKEN) {
       logger.error('TELEGRAM_BOT_TOKEN not configured');
-      res.status(500).json({ error: 'Server configuration error' });
+      res.status(500).json({ error: 'Server configuration error', code: 'MISSING_BOT_TOKEN' });
       return;
     }
 
@@ -34,7 +34,7 @@ export const validateTelegramWebAppData = (
 
     if (!hash) {
       logger.warn('Missing hash in init data');
-      res.status(401).json({ error: 'Unauthorized: Invalid data' });
+      res.status(401).json({ error: 'Unauthorized: Invalid data', code: 'MISSING_HASH' });
       return;
     }
 
@@ -59,7 +59,7 @@ export const validateTelegramWebAppData = (
     // Сравнение хешей
     if (calculatedHash !== hash) {
       logger.warn('Invalid hash signature');
-      res.status(401).json({ error: 'Unauthorized: Invalid signature' });
+      res.status(401).json({ error: 'Unauthorized: Invalid signature', code: 'INVALID_SIGNATURE' });
       return;
     }
 
@@ -85,7 +85,7 @@ export const validateTelegramWebAppData = (
         logger.info(`Authenticated user: ${req.telegramUser?.id}`);
       } catch (e) {
         logger.error('Failed to parse user data', e);
-        res.status(401).json({ error: 'Unauthorized: Invalid user data' });
+        res.status(401).json({ error: 'Unauthorized: Invalid user data', code: 'INVALID_USER' });
         return;
       }
     }
@@ -93,7 +93,7 @@ export const validateTelegramWebAppData = (
     next();
   } catch (error) {
     logger.error('Telegram auth validation error:', error);
-    res.status(401).json({ error: 'Unauthorized' });
+    res.status(401).json({ error: 'Unauthorized', code: 'UNKNOWN_AUTH_ERROR' });
   }
 };
 

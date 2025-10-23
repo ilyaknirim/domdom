@@ -89,9 +89,29 @@ export class PropertyController {
         throw new AppError('Unauthorized', 401);
       }
 
-      // В реальности нужна валидация через Joi или express-validator
+      const requiredFields = ['title', 'description', 'type', 'dealType', 'city', 'address', 'rooms', 'bedrooms', 'bathrooms', 'area', 'price'];
+      const missing = requiredFields.filter((f) => req.body[f] === undefined || req.body[f] === null || req.body[f] === '');
+      if (missing.length > 0) {
+        throw new AppError(`Validation error: missing fields: ${missing.join(', ')}`, 400);
+      }
+
+      // Базовая валидация типов
+      const numericFields = ['rooms', 'bedrooms', 'bathrooms', 'area', 'price'];
+      for (const f of numericFields) {
+        const v = Number(req.body[f]);
+        if (Number.isNaN(v) || v < 0) {
+          throw new AppError(`Validation error: field '${f}' must be a non-negative number`, 400);
+        }
+      }
+
+      // Приведение типов к ожидаемым
       const data = {
         ...req.body,
+        rooms: Number(req.body.rooms),
+        bedrooms: Number(req.body.bedrooms),
+        bathrooms: Number(req.body.bathrooms),
+        area: Number(req.body.area),
+        price: Number(req.body.price),
         ownerId: req.telegramUser.id.toString(),
       };
 
