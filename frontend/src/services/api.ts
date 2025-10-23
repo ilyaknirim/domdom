@@ -27,8 +27,16 @@ class ApiService {
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
-        console.error('API Error:', error.response?.data || error.message);
-        return Promise.reject(error);
+        const status = error.response?.status;
+        const data = error.response?.data || {};
+        const code = data.code || error.code || 'API_ERROR';
+        const message = data.error || data.message || error.message || 'Unknown error';
+        console.error('API Error:', { status, code, message, data });
+        const enriched = new Error(message);
+        (enriched as any).name = code;
+        (enriched as any).status = status;
+        (enriched as any).raw = data;
+        return Promise.reject(enriched);
       }
     );
   }

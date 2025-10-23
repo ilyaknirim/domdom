@@ -35,7 +35,9 @@ const CreatePropertyPage = () => {
       navigate('/my-properties');
     } catch (error) {
       hapticFeedback.notification('error');
-      showAlert(t('errors.general'));
+      const msg = (error as any)?.message || t('errors.general');
+      const code = (error as any)?.name;
+      showAlert(code ? `${msg} (${code})` : msg);
     }
   };
 

@@ -83,6 +83,9 @@ const BookingDetailPage = () => {
         navigate('/bookings');
       } catch (error) {
         hapticFeedback.notification('error');
+        const msg = (error as any)?.message || t('errors.general');
+        const code = (error as any)?.name;
+        alert(code ? `${msg} (${code})` : msg);
       }
     }
   };
