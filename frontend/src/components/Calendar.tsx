@@ -126,7 +126,7 @@ const Calendar = ({
         {getWeekDays().map((day, index) => (
           <div
             key={index}
-            className="w-12 h-8 flex items-center justify-center text-xs font-medium text-gray-600"
+            className="w-12 h-8 flex items-center justify-center text-xs font-medium text-gray-700"
           >
             {day}
           </div>

@@ -79,13 +79,13 @@ const PropertyCard = ({ property, onClick, onFavoriteToggle, isFavorite }: Prope
         </div>
 
         {/* Location */}
-        <div className="flex items-center text-gray-600 text-sm mb-3">
+        <div className="flex items-center text-gray-700 text-sm mb-3">
           <MapPinIcon className="w-4 h-4 mr-1" />
           <span className="line-clamp-1">{property.address}, {property.city}</span>
         </div>
 
         {/* Features */}
-        <div className="flex gap-4 text-sm text-gray-600 mb-3">
+        <div className="flex gap-4 text-sm text-gray-700 mb-3">
           <span>🛏️ {property.bedrooms}</span>
           <span>🚿 {property.bathrooms}</span>
           <span>📐 {property.area} м²</span>
@@ -105,7 +105,7 @@ const PropertyCard = ({ property, onClick, onFavoriteToggle, isFavorite }: Prope
           {property.owner && (
             <div className="flex items-center gap-2">
               <div className="text-right">
-                <div className="text-xs text-gray-600">
+                <div className="text-xs text-gray-700">
                   {property.owner.firstName} {property.owner.lastName}
                 </div>
                 {property.owner.isVerified && (
@@ -119,7 +119,7 @@ const PropertyCard = ({ property, onClick, onFavoriteToggle, isFavorite }: Prope
         </div>
 
         {/* Stats */}
-        <div className="flex gap-4 text-xs text-gray-500 mt-3">
+        <div className="flex gap-4 text-xs text-gray-700 mt-3">
           <span>👁️ {property.viewCount}</span>
           <span>❤️ {property.favoriteCount}</span>
           {property._count?.reviews > 0 && (
