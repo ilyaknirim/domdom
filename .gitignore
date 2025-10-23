@@ -36,8 +36,24 @@ Thumbs.db
 *.swo
 *~
 
-# Prisma
-prisma/migrations/
-
 # Docker
 *.pid
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Linters/Tools cache
+.eslintcache
+.turbo/
+.parcel-cache/
+
+# Hosting/Platforms
+.vercel/
+.next/
+
+# Vite cache
+node_modules/.vite/
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.github/instructions/snyk_rules.instructions.md

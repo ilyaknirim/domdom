@@ -37,6 +37,13 @@
     "featuredProperties": "מומלץ"
   },
   "property": {
+    "title": "כותרת",
+    "type": "סוג",
+    "dealType": "סוג עסקה",
+    "publish": "פרסם",
+    "address": "כתובת",
+    "city": "עיר",
+    "createSuccess": "המודעה נוצרה",
     "apartment": "דירה",
     "room": "חדר",
     "house": "בית",
@@ -155,6 +162,7 @@
     "title": "חיפוש",
     "noResults": "לא נמצאו תוצאות",
     "resultsFound": "נמצאו {{count}} נכסים",
+    "found": "נמצאו",
     "filters": "מסננים",
     "sortBy": "מיין לפי",
     "priceAsc": "מחיר: נמוך לגבוה",

@@ -1,7 +1,7 @@
 import { prisma } from '../config/database';
 import { BookingStatus } from '@prisma/client';
 import { AppError } from '../middleware/errorHandler';
-import { io } from '../server';
+import { getIO } from '../utils/socket';
 
 export interface CreateBookingData {
   propertyId: string;
@@ -125,7 +125,7 @@ export class BookingService {
     });
 
     // Отправить real-time уведомление
-    io.to(`user_${property.ownerId}`).emit('new_notification', {
+    getIO().to(`user_${property.ownerId}`).emit('new_notification', {
       type: 'NEW_BOOKING',
       bookingId: booking.id,
     });
@@ -214,7 +214,7 @@ export class BookingService {
       },
     });
 
-    io.to(`user_${booking.userId}`).emit('booking_confirmed', {
+    getIO().to(`user_${booking.userId}`).emit('booking_confirmed', {
       bookingId: booking.id,
     });
 

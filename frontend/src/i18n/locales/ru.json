@@ -37,6 +37,13 @@
     "featuredProperties": "Рекомендуемое"
   },
   "property": {
+    "title": "Название",
+    "type": "Тип",
+    "dealType": "Тип сделки",
+    "publish": "Опубликовать",
+    "address": "Адрес",
+    "city": "Город",
+    "createSuccess": "Объявление создано",
     "apartment": "Квартира",
     "room": "Комната",
     "house": "Дом",
@@ -155,6 +162,7 @@
     "title": "Поиск",
     "noResults": "Ничего не найдено",
     "resultsFound": "Найдено {{count}} объектов",
+    "found": "Найдено",
     "filters": "Фильтры",
     "sortBy": "Сортировка",
     "priceAsc": "Цена: по возрастанию",

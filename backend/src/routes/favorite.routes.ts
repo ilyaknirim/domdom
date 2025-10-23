@@ -61,28 +61,39 @@ router.post('/:propertyId', async (req: Request, res: Response, next: NextFuncti
     }
 
     // Создание или получение избранного
-    const favorite = await prisma.favorite.upsert({
+    // Проверить, существует ли уже избранное
+    const existing = await prisma.favorite.findUnique({
       where: {
         userId_propertyId: {
           userId,
           propertyId,
         },
       },
-      update: {},
-      create: {
-        userId,
-        propertyId,
-      },
-      include: {
-        property: true,
-      },
     });
 
-    // Обновить счетчик избранного на объекте
-    await prisma.property.update({
-      where: { id: propertyId },
-      data: { favoriteCount: { increment: 1 } },
-    });
+    let favorite;
+    if (existing) {
+      // Возвращаем существующую запись без изменения счетчиков
+      favorite = await prisma.favorite.findUnique({
+        where: {
+          userId_propertyId: {
+            userId,
+            propertyId,
+          },
+        },
+        include: { property: true },
+      });
+    } else {
+      // Создаем новую и инкрементируем счетчик
+      favorite = await prisma.favorite.create({
+        data: { userId, propertyId },
+        include: { property: true },
+      });
+      await prisma.property.update({
+        where: { id: propertyId },
+        data: { favoriteCount: { increment: 1 } },
+      });
+    }
 
     res.status(201).json(favorite);
   } catch (error) {
@@ -123,9 +134,14 @@ router.delete('/:propertyId', async (req: Request, res: Response, next: NextFunc
     });
 
     // Обновить счетчик
+    // Декремент со страховкой от отрицательных значений
     await prisma.property.update({
       where: { id: propertyId },
-      data: { favoriteCount: { decrement: 1 } },
+      data: {
+        favoriteCount: {
+          decrement: 1,
+        },
+      },
     });
 
     res.json({ message: 'Removed from favorites' });

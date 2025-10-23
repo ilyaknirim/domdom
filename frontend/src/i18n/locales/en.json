@@ -37,6 +37,13 @@
     "featuredProperties": "Featured"
   },
   "property": {
+    "title": "Title",
+    "type": "Type",
+    "dealType": "Deal Type",
+    "publish": "Publish",
+    "address": "Address",
+    "city": "City",
+    "createSuccess": "Listing created",
     "apartment": "Apartment",
     "room": "Room",
     "house": "House",
@@ -155,6 +162,7 @@
     "title": "Search",
     "noResults": "No results found",
     "resultsFound": "{{count}} properties found",
+    "found": "Found",
     "filters": "Filters",
     "sortBy": "Sort by",
     "priceAsc": "Price: Low to High",

@@ -19,6 +19,7 @@ import reviewRoutes from './routes/review.routes';
 import favoriteRoutes from './routes/favorite.routes';
 import notificationRoutes from './routes/notification.routes';
 import chatRoutes from './routes/chat.routes';
+import { setIO } from './utils/socket';
 
 dotenv.config();
 
@@ -71,6 +72,8 @@ app.use('/api/notifications', validateTelegramWebAppData, notificationRoutes);
 app.use('/api/chat', validateTelegramWebAppData, chatRoutes);
 
 // WebSocket для чата
+setIO(io);
+
 io.on('connection', (socket) => {
   logger.info(`Socket connected: ${socket.id}`);
 
